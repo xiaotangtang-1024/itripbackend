@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.itrip.dao.orderlinkuser.ItripOrderLinkUserMapper">
+
+    <delete id="deleteItripOrderLinkUserByOrderId" parameterType="Long">
+        delete from itrip_order_link_user where orderId = #{orderId}
+    </delete>
+
+    <insert id="insertItripOrderLinkUser" parameterType="cn.itrip.beans.pojo.ItripOrderLinkUser">
+    insert into itrip_order_link_user(
+                    orderId,
+                    linkUserId,
+                    linkUserName,
+                    creationDate,
+                    createdBy,
+                    modifyDate,
+                    modifiedBy)
+    values(
+                 #{orderId},
+                 #{linkUserId},
+                 #{linkUserName},
+                 #{creationDate},
+                 #{createdBy},
+                 #{modifyDate},
+                #{modifiedBy})
+  </insert>
+
+    <select id="getItripOrderLinkUserIdsByOrder" resultType="Long" >
+    SELECT
+        linkUserId
+    FROM itrip_order_link_user
+    WHERE orderId IN(SELECT
+                         id
+                     FROM itrip_hotel_order
+                     WHERE orderStatus = '0')
+  </select>
+</mapper>
